@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function HomePage(){
-  const [data, setData] = useState([])
+  const navigate = useNavigate()
 
-  const getUser = async () => {
-    const fetchedData = await fetch("http://127.0.0.1:8000/api/users/1/").then((response) => response.json())
-    console.log(data)
-    setData(fetchedData)
+  const handleClick = () => {
+    navigate("/login")
   }
 
-  useEffect(() => {
-    if (data.length === 0){
-      getUser()
-    }
-  }, [getUser])
-  
   return(
     <div>
-	  <h1>Test</h1>
-      <p>{data["username"]}</p>
+      <button onClick={handleClick}>Login</button>
     </div>
   )
 }

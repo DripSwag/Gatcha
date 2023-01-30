@@ -23,8 +23,8 @@ def getUsers(request):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
-def getUser(request, pk):
-    user = User.objects.get(id=pk)
+def getUser(request, Username, Password):
+    user = User.objects.get(username=Username, password=Password)
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
