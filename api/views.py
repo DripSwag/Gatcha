@@ -24,9 +24,12 @@ def getUsers(request):
 
 @api_view(["GET"])
 def getUser(request, Username, Password):
-    user = User.objects.get(username=Username, password=Password)
-    serializer = UserSerializer(user, many=False)
-    return Response(serializer.data)
+    try:
+        user = User.objects.get(username=Username, password=Password)
+        serializer = UserSerializer(user, many=False)
+        return Response(serializer.data)
+    except User.DoesNotExist:
+        return Response({})
 
 @api_view(["GET", "POST"])
 def getBannerCharacters(request):
