@@ -36,11 +36,12 @@ function Login(){
 
 	return(
 		<div>
-			<form>
-				<input type="text" placeholder="Username" onChange={(event) => {setUsername(event.target.value)}}></input>
-				<input type="text" placeholder="Password" onChange={(event) => {setPassword(event.target.value)}}></input>
-			</form>
-			<button onClick={idCheck}>Login</button>
+		  <form>
+		    <input type="text" placeholder="Username" onChange={(event) => {setUsername(event.target.value)}}></input>
+			<input type="text" placeholder="Password" onChange={(event) => {setPassword(event.target.value)}}></input>
+		  </form>
+		  <button onClick={idCheck}>Login</button>
+		  <button onClick={() => {navigate("/createAccount")}}>Create Account</button>
 		</div>
 	)
 }
