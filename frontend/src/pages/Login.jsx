@@ -26,7 +26,7 @@ function Login(){
 			console.log("Nope")
 		}
 		else{
-			//Need to add the id to cookies here
+			document.cookie = `id=${userId}; SameSite=None; Secure`
 			navigate("/homepage", {
 				state:{
 					id:userId

@@ -1,18 +1,32 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react" 
 
 function UserHomePage(){
+	const navigate = useNavigate()
 	const location = useLocation()
 	const [username, setUsername] = useState()
 	const [money, setMoney] = useState()
 	const [characters, setCharacters] = useState([])
 
+	const checkId = () => {
+		if(location.state.id === null && document.cookie === ""){
+			navigate("/")
+		}
+		else if(document.cookie !== "" && location.state.id === null){
+			const userIdValue = document.cookie.match('(^|;)\\s*' + "id" + '\\s*=\\s*([^;]+)')?.pop() || ''
+			return userIdValue
+		}
+		else{
+			return location.state.id
+		}
+	}
+
 	useEffect(() => {
 		// Why
 		const getUserData = async () => {
-			const response = await fetch(`http://127.0.0.1:8000/api/user/${location.state.id}`)
-			if(response.status === 500){
-				return null
+			const response = await fetch(`http://127.0.0.1:8000/api/user/${checkId()}`)
+			if(response.status === 404){
+				navigate("/")
 			}
 			else{
 				const body = await response.json().then((event) => {return event})
@@ -22,9 +36,9 @@ function UserHomePage(){
 		}
 
 		const getRollData = async () => {
-			const response = await fetch(`http://127.0.0.1:8000/api/roll/${location.state.id}`)
-			if(response.status === 500){
-				return null
+			const response = await fetch(`http://127.0.0.1:8000/api/roll/${checkId()}`)
+			if(response.status === 404){
+				navigate("/")
 			}
 			else{
 				const body = await response.json()
