@@ -2,10 +2,10 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.utils import serializer_helpers
 from rest_framework.views import status
-from .models import User, BannerCharacter, UserCharacter
+from .models import User, BannerCharacter, UserCharacter, Banner
 from rest_framework.decorators import api_view
 import random
-from .serializer import UserSerializer, BannerCharacterSerializer, UserCharacterSerializer
+from .serializer import UserSerializer, BannerCharacterSerializer, UserCharacterSerializer, BannerSerializer
 from api import serializer
 
 @api_view(["GET", "POST"])
@@ -57,16 +57,30 @@ def roll(request):
         serializer = UserCharacterSerializer(characters, many=True)
         return Response(serializer.data)
     if request.method == "POST":
-        #Gets all the characters in the banner and picks a random one
-        characters = BannerCharacter.objects.filter(banner__id=request.data["banner"]).values()
-        rolled = characters[random.randint(0, len(characters) - 1)]
-        rolled.pop("id")
-        new = rolled | {"user": request.data["user"]}
-        serializer = UserCharacterSerializer(data=new)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #Checks if the user has enough money
+        banner = Banner.objects.get(id=request.data["banner"])
+        bannerDic = BannerSerializer(banner, many=False).data
+        user = User.objects.get(id=request.data["user"])
+        userDic = UserSerializer(user, many=False).data
+        if userDic["money"] >= bannerDic["price"]:
+            #Adjusts users money
+            math = userDic["money"] - bannerDic["price"]
+            print(math)
+            setattr(user, "money", math)
+            user.save()
+            #Gets all the characters in the banner and picks a random one
+            characters = BannerCharacter.objects.filter(banner__id=request.data["banner"]).values()
+            rolled = characters[random.randint(0, len(characters) - 1)]
+            rolled.pop("id")
+            new = rolled | {"user": request.data["user"]}
+            serializer = UserCharacterSerializer(data=new)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("Poor", status=status.HTTP_303_SEE_OTHER)
+
 
 @api_view(["GET"])
 def getRoll(request, user_id):

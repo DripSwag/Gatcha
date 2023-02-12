@@ -7,39 +7,42 @@ function UserHomePage(){
 	const [money, setMoney] = useState()
 	const [characters, setCharacters] = useState([])
 
-	const getUserData = async () => {
-		const response = await fetch(`http://127.0.0.1:8000/api/user/${location.state.id}`)
-		if(response.status === 500){
-			return null
-		}
-		else{
-			const body = await response.json().then((event) => {return event})
-			setUsername(body["username"])
-			setMoney(body["money"])
-		}
-	}
-
-	const getRollData = async () => {
-		const response = await fetch(`http://127.0.0.1:8000/api/roll/${location.state.id}`)
-		if(response.status === 500){
-			return null
-		}
-		else{
-			const body = await response.json()
-			setCharacters(body)
-		}
-	}
-
 	useEffect(() => {
+		// Why
+		const getUserData = async () => {
+			const response = await fetch(`http://127.0.0.1:8000/api/user/${location.state.id}`)
+			if(response.status === 500){
+				return null
+			}
+			else{
+				const body = await response.json().then((event) => {return event})
+				setUsername(body["username"])
+				setMoney(body["money"])
+			}
+		}
+
+		const getRollData = async () => {
+			const response = await fetch(`http://127.0.0.1:8000/api/roll/${location.state.id}`)
+			if(response.status === 500){
+				return null
+			}
+			else{
+				const body = await response.json()
+				setCharacters(body)
+			}
+		}
+
 		getUserData()
 		getRollData()
-	}, [getUserData, getRollData])
+	}, [location.state.id])
 
   return(
 	<div>
 	  <h1>UserHomePage</h1>
-	  <h2>{username}</h2>
-	  <p>{money}</p>
+	  <div>
+		<p>{username}</p>
+		<p>{money}</p>
+	  </div>
 	  {characters && characters.map((data, x) => {
 			return <div key={x}>
 				<p>{data["name"]}</p>

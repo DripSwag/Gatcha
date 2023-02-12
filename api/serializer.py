@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import User
-from .models import BannerCharacter, UserCharacter
+from .models import Banner, BannerCharacter, UserCharacter, User
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -15,4 +14,9 @@ class BannerCharacterSerializer(ModelSerializer):
 class UserCharacterSerializer(ModelSerializer):
     class Meta:
         model = UserCharacter
+        fields = '__all__'
+
+class BannerSerializer(ModelSerializer):
+    class Meta:
+        model = Banner
         fields = '__all__'
