@@ -1,13 +1,12 @@
 from django.http import JsonResponse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework.utils import serializer_helpers
 from rest_framework.views import status
 from .models import User, BannerCharacter, UserCharacter
-from .serializer import UserSerializer, BannerCharacterSerializer, UserCharacterSerializer
+from rest_framework.decorators import api_view
 import random
-
-# Create your views here.
+from .serializer import UserSerializer, BannerCharacterSerializer, UserCharacterSerializer
+from api import serializer
 
 @api_view(["GET", "POST"])
 def getUsers(request):
@@ -23,7 +22,7 @@ def getUsers(request):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
-def getUser(request, Username, Password):
+def login(request, Username, Password):
     try:
         user = User.objects.get(username=Username, password=Password)
         serializer = UserSerializer(user, many=False)
@@ -31,12 +30,17 @@ def getUser(request, Username, Password):
     except User.DoesNotExist:
         return Response({})
 
+@api_view(["GET"])
+def user(request, user_id):
+    if request.method == "GET":
+        user = User.objects.get(id=user_id)
+        serializer = UserSerializer(user, many=False)
+        return Response(serializer.data)
+
 @api_view(["GET", "POST"])
 def getBannerCharacters(request):
     if request.method == "GET":
         character = BannerCharacter.objects.all()
-        print(type(character.values()[0]))
-        print(type(request.data))
         serializer = BannerCharacterSerializer(character, many=True)
         return Response(serializer.data)
     elif request.method == "POST":
@@ -58,9 +62,15 @@ def roll(request):
         rolled = characters[random.randint(0, len(characters) - 1)]
         rolled.pop("id")
         new = rolled | {"user": request.data["user"]}
-        print(new)
         serializer = UserCharacterSerializer(data=new)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def getRoll(request, user_id):
+    if request.method == "GET":
+        characters = UserCharacter.objects.filter(user=user_id)
+        serializer = UserCharacterSerializer(characters, many=True)
+        return Response(serializer.data)

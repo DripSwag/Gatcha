@@ -15,6 +15,7 @@ function Login(){
 		}
 		else{
 			const body = await response.json().then((event) => {return event["id"]})
+			console.log(body)
 			return body
 		}
 	}
