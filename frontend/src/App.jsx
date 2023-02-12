@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import Layout from './pages/Layout'
 import UserHomePage from './pages/UserHomePage';
 import CreateAccount from './pages/CreateAccount';
+import PlayersCharacters from './pages/PlayersCharacters';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="createAccount" element={<CreateAccount />} />
           <Route path="homepage" element={<UserHomePage />} />
+          <Route path="homepage/characters" element={<PlayersCharacters />} />
         </Route>
       </Routes>
     </BrowserRouter>
