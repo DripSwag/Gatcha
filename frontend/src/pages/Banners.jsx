@@ -1,14 +1,14 @@
-import { useNavigate, useLocation } from "react-router-dom"
-import { useState, useCallback, useEffect } from "react"
-import TopTab from "../components/TopTab"
-import CharacterPane from "../components/CharacterPane"
+import { useState, useEffect, useCallback } from "react"
+import TopTab from '../components/TopTab.jsx'
+import { useNavigate, useLocation } from 'react-router-dom'
+import BannerDisplay from '../components/BannerDisplay.jsx'
 
-function PlayersCharacters(){
+function Banners(){
 	const navigate = useNavigate()
 	const location = useLocation()
 	const [username, setUsername] = useState()
 	const [money, setMoney] = useState()
-	const [characters, setCharacters] = useState([])
+	const [banners, setBanners] = useState([])
 
 	const checkId = useCallback(() => {
 		if(location.state.id === null && document.cookie === ""){
@@ -37,28 +37,23 @@ function PlayersCharacters(){
 			}
 		}
 
-		const getCharacters = async () => {
-			const response = await fetch(`http://127.0.0.1:8000/api/roll/${checkId()}`)
-			if(response.status === 404){
-				navigate("/")
-			}
-			else{
-				const body = await response.json().then((event) => {return event})
-				setCharacters(body)
-			}
+		const getBanners = async () => {
+			const response = await fetch('http://127.0.0.1:8000/api/banner')
+			const body = await response.json().then((event) => {return event})
+			setBanners(body)
 		}
 
 		getUserData()
-		getCharacters()
+		getBanners()
 	}, [checkId, navigate])
 
   return(
 	<div>
-      <TopTab name={username} money={money} />
-		{characters && characters.map((data, x) => {
-			return <CharacterPane key={x} name={data["name"]} attack={data["attack"]} defense={data["defense"]} rarity={data["rarity"]}/>
-		})}
-	</div> 
+	  <TopTab name={username} money={money} />
+	  { banners &&  banners.map((data) => {
+		return(<BannerDisplay key={data["id"]} name={data["name"]} price={data["price"]} />)
+		}) }
+	</div>
   )
 }
-export default PlayersCharacters
+export default Banners

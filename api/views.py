@@ -88,3 +88,10 @@ def getRoll(request, user_id):
         characters = UserCharacter.objects.filter(user=user_id)
         serializer = UserCharacterSerializer(characters, many=True)
         return Response(serializer.data)
+
+@api_view(["GET"])
+def getBanners(request):
+    if request.method == "GET":
+        banners = Banner.objects.all()
+        serializer = BannerSerializer(banners, many=True)
+        return Response(serializer.data)

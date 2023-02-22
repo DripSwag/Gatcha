@@ -41,7 +41,8 @@ function UserHomePage(){
   return(
 	<div>
 	  <TopTab name={username} money={money}/>
-		<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}}>Si</button>
+		<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}}>Characters</button>
+		<button onClick={() => {navigate("/homepage/banners", {state:{id:checkId()}})}}>Banners</button>
 	</div>
   )
 }

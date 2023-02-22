@@ -1,10 +1,12 @@
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const Layout = () => {
+  const navigate = useNavigate()
+
   return(
 	<div>
 	  <Outlet />	
-	</div>
+    </div>
   )
 }
 export default Layout
