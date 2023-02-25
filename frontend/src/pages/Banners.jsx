@@ -51,7 +51,7 @@ function Banners(){
 	<div>
 	  <TopTab name={username} money={money} />
 	  { banners &&  banners.map((data) => {
-		return(<BannerDisplay key={data["id"]} name={data["name"]} price={data["price"]} />)
+		return(<BannerDisplay key={data["id"]} name={data["name"]} price={data["price"]} user_id={location.state.id} banner_id={data["id"]} />)
 		}) }
 	</div>
   )

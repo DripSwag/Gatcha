@@ -7,6 +7,7 @@ import UserHomePage from './pages/UserHomePage';
 import CreateAccount from './pages/CreateAccount';
 import PlayersCharacters from './pages/PlayersCharacters';
 import Banners from './pages/Banners'
+import Rolled from './pages/Rolled'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="homepage" element={<UserHomePage />} />
           <Route path="homepage/characters" element={<PlayersCharacters />} />
           <Route path="homepage/banners" element={<Banners />} />
+          <Route path="homepage/banners/rolled" element={<Rolled />} />
         </Route>
       </Routes>
     </BrowserRouter>

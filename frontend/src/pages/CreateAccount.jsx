@@ -20,6 +20,9 @@ function CreateAccount(){
 		if(response.status === 400){
 			console.log("Nope")
 		}
+		else{
+			navigate("/login")
+		}
 	}
 
   return(
