@@ -53,11 +53,13 @@ function PlayersCharacters(){
 	}, [checkId, navigate])
 
   return(
-	<div>
+	<div className="bg-black">
       <TopTab name={username} money={money} />
+	  <div className="flex flex-wrap gap-8 justify-center">
 		{characters && characters.map((data, x) => {
 			return <CharacterPane key={x} name={data["name"]} attack={data["attack"]} defense={data["defense"]} rarity={data["rarity"]}/>
 		})}
+	  </div>
 	</div> 
   )
 }
