@@ -39,10 +39,10 @@ function UserHomePage(){
 	}, [checkId, navigate])
 
   return(
-	<div className="text-white bg-black min-h-screen">
+	<div className="text-white bg-home bg-cover min-h-screen static">
 	  <TopTab name={username} money={money}/>
-		<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}} className="h-32 w-full border-y-[1px] px-8 border-white text-left">Characters</button>
-		<button onClick={() => {navigate("/homepage/banners", {state:{id:checkId()}})}} className="h-32 w-full border-y-[1px] px-8 border-white text-left">Banners</button>
+		<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}} className="h-32 w-full border-y-[1px] px-8 border-white text-left relative background">Characters</button>
+		<button onClick={() => {navigate("/homepage/banners", {state:{id:checkId()}})}} className="h-32 w-full relative border-y-[1px] px-8 border-white text-left background">Banners</button>
 	</div>
   )
 }
