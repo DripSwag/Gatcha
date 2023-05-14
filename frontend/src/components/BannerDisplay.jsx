@@ -32,7 +32,7 @@ function BannerDisplay({ name, price, user_id, banner_id }){
   }
   
   return(
-	<div>
+	<div className="w-1/2 h-64 bg-blue-700/50">
       <h2>{name}</h2>
       <button onClick={purchase}>{price}</button>
 	</div>

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import { useCallback, useEffect, useState } from "react" 
+import { useCallback, useEffect, useState } from "react"
 import TopTab from "../components/TopTab.jsx"
 
 function UserHomePage(){
@@ -19,7 +19,7 @@ function UserHomePage(){
 		else{
 			return location.state.id
 		}
-	}, [location.state.id, navigate]) 
+	}, [location.state.id, navigate])
 
 	useEffect(() => {
 		// Why
@@ -38,12 +38,14 @@ function UserHomePage(){
 		getUserData()
 	}, [checkId, navigate])
 
-  return(
-	<div className="text-white bg-home bg-cover min-h-screen static">
-	  <TopTab name={username} money={money}/>
-		<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}} className="h-32 w-full border-y-[1px] px-8 border-white text-left relative background">Characters</button>
-		<button onClick={() => {navigate("/homepage/banners", {state:{id:checkId()}})}} className="h-32 w-full relative border-y-[1px] px-8 border-white text-left background">Banners</button>
-	</div>
-  )
+	return(
+		<div className="text-white bg-home bg-cover bg-center min-h-screen static gap-4">
+		<TopTab name={username} money={money}/>
+			<div className="flex flex-col items-center align-center gap-8">
+				<button onClick={() => {navigate("/homepage/characters", {state:{id:checkId()} })}} className="h-32 w-3/4 border-4 px-8 border-zinc-400 text-left relative background">Characters</button>
+				<button onClick={() => {navigate("/homepage/banners", {state:{id:checkId()}})}} className="h-32 w-3/4 relative border-4 rounded-lg px-8 border-zinc-400 text-left background">Banners</button>
+			</div>
+		</div>
+	)
 }
 export default UserHomePage

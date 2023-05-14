@@ -21,6 +21,9 @@ function TopTab({ name, money }){
         <p className="text-white">{name}</p>
       </div>
       <div className="bg-[#262626] rounded-2xl w-max py-0.5 px-8 absolute left-3/4 top-1/2 -translate-x-1/2 -translate-y-1/2 h-max">
+        <div className="bg-yellow-500 w-10 h-10 absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-min text-gray-700">$</div>
+        </div>
         <p className="text-white">{money}</p>
         <button className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 rounded-full bg-white text-black w-8 h-8">+</button>
       </div>

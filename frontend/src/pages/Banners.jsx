@@ -48,11 +48,13 @@ function Banners(){
 	}, [checkId, navigate])
 
   return(
-	<div>
+	<div className="bg-roll bg-cover min-h-screen bg-center flex flex-col gap-8 pb-4">
 	  <TopTab name={username} money={money} />
-	  { banners &&  banners.map((data) => {
-		return(<BannerDisplay key={data["id"]} name={data["name"]} price={data["price"]} user_id={location.state.id} banner_id={data["id"]} />)
+	  <div className="w-full min-h-full flex flex-col items-center gap-8">
+		{ banners &&  banners.map((data) => {
+		  return(<BannerDisplay key={data["id"]} name={data["name"]} price={data["price"]} user_id={location.state.id} banner_id={data["id"]} />)
 		}) }
+	  </div>
 	</div>
   )
 }
